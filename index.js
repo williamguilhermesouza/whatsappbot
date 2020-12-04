@@ -1,20 +1,26 @@
-const { Builder, Session, By, Condition } = require('selenium-webdriver');
+const { Builder, By, until } = require('selenium-webdriver');
+var promise = require('selenium-webdriver').promise;
 
-let driver = new Builder().forBrowser('firefox').build();
+let main = async () => {
+    let driver = new Builder().forBrowser('firefox').build();
 
-let condition = new Condition('for auth').getCookies;
+    await driver.get('http://web.whatsapp.com');
+    await driver.wait(until.elementLocated(By.className("_1hI5g _1XH7x _1VzZY")), 60000);
+    
+    function findByHtml() {
+        let divList = driver.findElements(By.className("_3Tw1q"));
+        let elList = promise.filter(divList, data => {
+            return data.className == "_1hI5g _1XH7x _1VzZY"
+        });
+        let element = promise.filter(elList, data => {
+            return data.getAttribute('title') == ""
+        });
+        console.log(element);
+        return element;
+    }
 
-driver.get('http://web.whatsapp.com');
-driver.wait(condition, 9000000);
-
-async function nameElement() {
-    let namesList = await driver.findElements(By.className("_1hI5g _1XH7x _1VzZY"));
-    let name = namesList.filter( name => {
-        if (name.title == "Luccas") {
-            return name;
-        }
-    });
-    console.log(namesList);
-    return name;
+    let chat = await driver.findElement();
+    console.log(chat);
 }
 
+main();
