@@ -1,26 +1,17 @@
-const { Builder, By, until } = require('selenium-webdriver');
-var promise = require('selenium-webdriver').promise;
+const { Builder, By, until, Key } = require('selenium-webdriver');
 
 let main = async () => {
     let driver = new Builder().forBrowser('firefox').build();
 
     await driver.get('http://web.whatsapp.com');
-    await driver.wait(until.elementLocated(By.className("_1hI5g _1XH7x _1VzZY")), 60000);
+    await driver.wait(until.elementLocated(By.className("_1awRl copyable-text selectable-text")), 60000);
     
-    function findByHtml() {
-        let divList = driver.findElements(By.className("_3Tw1q"));
-        let elList = promise.filter(divList, data => {
-            return data.className == "_1hI5g _1XH7x _1VzZY"
-        });
-        let element = promise.filter(elList, data => {
-            return data.getAttribute('title') == ""
-        });
-        console.log(element);
-        return element;
-    }
+    let chatHeader = await driver.findElement(By.xpath("//*[@title='Luccas']"));
+    chatHeader.click();
 
-    let chat = await driver.findElement();
-    console.log(chat);
+    await driver.wait(until.elementLocated(By.className("Srlyw")), 60000);
+    let inputBox = await driver.findElement(By.xpath("//*[@data-tab='6']"));
+    inputBox.sendKeys('Testando meu bot contigo', Key.ENTER);
 }
 
 main();
