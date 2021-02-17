@@ -6,7 +6,7 @@ let main = async () => {
     await driver.get('http://web.whatsapp.com');
     await driver.wait(until.elementLocated(By.className("_1awRl copyable-text selectable-text")), 60000);
     
-    let chatHeader = await driver.findElement(By.xpath("//*[@title='chatospammer']"));
+    let chatHeader = await driver.findElement(By.xpath("//*[@title='chatospammer']")); // put the contact name instead of 'chatospammer' 
     chatHeader.click();
 
     await driver.wait(until.elementLocated(By.className("Srlyw")), 60000);
@@ -16,7 +16,7 @@ let main = async () => {
             inputBox.sendKeys('Spammar é legal', Key.ENTER);
         } catch {
             let inputBox = await driver.findElement(By.xpath("//*[@data-tab='6']"));
-            inputBox.sendKeys('Spammar é legal', Key.ENTER);
+            inputBox.sendKeys('Spammar é legal', Key.ENTER); // message to spam
 
         }
     }
