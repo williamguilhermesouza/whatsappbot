@@ -3,7 +3,9 @@ const firefox = require('selenium-webdriver/firefox');
 
 let main = async () => {
     let options = new firefox.Options();
-    options.setPreference('browser.helperApps.neverAsk.saveToDisk', 'application/ogg');
+    options.setPreference("browser.download.folderList", 2);
+    options.setPreference("browser.download.dir", "d:\\");
+    options.setPreference("browser.helperApps.neverAsk.saveToDisk", "audio/ogg");
     options.setPreference("browser.helperApps.alwaysAsk.force", false);
     let driver = new Builder().forBrowser('firefox').setFirefoxOptions(options).build();
     const actions = driver.actions({async: true});
@@ -12,20 +14,15 @@ let main = async () => {
     await driver.get('http://web.whatsapp.com');
     await driver.wait(until.elementLocated(By.className("_1awRl copyable-text selectable-text")), 60000);
 
-    while(true) {
-        try {
-            let chatHeader = await driver.findElement(By.xpath("//*[@title='Luccas']")); 
-            chatHeader.click(); 
-            break;
-        } catch {
-            continue;
-        }
-    }
+    // getting stale element error
+    let chatHeader = await driver.findElement(By.xpath("//*[@title='Luccas']")); 
+    chatHeader.click(); 
+
 
     await driver.wait(until.elementLocated(By.className("_2mDlG")), 60000);
     let audioBox = await (await driver).findElement(By.className('_2mDlG'));
 
-    actions.pause(mouse).move({origin: audioBox}).click();
+    actions.move({origin: audioBox}).click();
     actions.perform();
 
     await driver.wait(until.elementLocated(By.className("_1qGcR")), 60000);
@@ -36,6 +33,7 @@ let main = async () => {
     let downloadButton = await (await driver).findElements(By.className('_1OwwW _3oTCZ _1NUp7'));
     downloadButton = downloadButton[2];
     downloadButton.click();
+
 }
 
 main();
