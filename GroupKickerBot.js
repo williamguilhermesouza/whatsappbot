@@ -23,15 +23,15 @@ let main = async () => {
     groupDescription.click();
     console.log("Clicked group description!");
 
-    driver.executeScript("window.scrollBy(0, document.body.scrollHeight)");
-    console.log("Scrolled group down!");
-
     await driver.wait(until.elementLocated(By.xpath("//*[@title='Luccas']")), 60000);
     let memberToKick = await (await driver).findElement(By.xpath("//*[@title='Luccas']"));
 
-    /* actions.move({origin: memberToKick}).click();
+    driver.executeScript("arguments[0].scrollIntoView();", memberToKick);
+    console.log("Scrolled group down!");
+
+    actions.move({origin: memberToKick}).click();
     actions.perform();
-    console.log("Mouse on member to kick!") */;
+    console.log("Mouse on member to kick!");
 
     await driver.wait(until.elementLocated(By.className("dNJHX")), 60000);
     let downArrow = await (await driver).findElement(By.className('dNJHX'));
